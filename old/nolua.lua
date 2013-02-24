@@ -1,20 +1,15 @@
 
 --[[noweb-like script for lua
 nolua разработан Александром Амзиным февральским вечером 2013 года]]--
-
---[[if (arg[1] == nil or arg[2] == nil) then
-	print ("Can't find input or output file. Please use the following format:\n nolua.lua inputfile outputfile")
-	os.exit()
-end]]--
-
-InputFile =  arg[1] -- was: "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\nolua.txt"
---OutputFile = stdout -- was: "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\noluanew.lua"
+InputFile = "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\nolua"
+OutputFile = "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\noluanew.lua"
 SourceCodeDefinitions = {}
 CurrentSection = "DefaultSection" -- в DefaultSection сваливается документация без определений, но с вызовами этих определений. По уму можно было бы просто пройтись по DefaultSection и вычистить оттуда болтовню, оставив лишь определения. Но второй проход по файлу нагляднее. 
 
 for line in io.lines(InputFile) do
 	if string.sub(line,1,2) == "--" and string.sub(line,-1) == "=" then -- Ищем определение
 		CurrentSection = string.sub (line,3,-2)
+		print ("Filling section: "..CurrentSection) -- Сообщаем, если нашли
 	elseif line == "--Конец--" or line == "--End--" then -- Ищем конец определения
 		CurrentSection = "DefaultSection"
 	elseif line then -- Не забываем положить очередную строчку в соответствующую секцию
@@ -36,9 +31,5 @@ end
 
 SourceCode = SourceCode.."\n" -- добавляем пустую строчку в конце файла
 
-
-print (SourceCode)
-
---local file = io.open(OutputFile, "w")
---file:write (SourceCode)
-
+local file = io.open(OutputFile, "w")
+file:write (SourceCode)

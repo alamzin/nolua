@@ -1,0 +1,6 @@
+
+--copyright=
+--lua port of noweb by Alexander Amzin
+--End--
+
+--copyright--

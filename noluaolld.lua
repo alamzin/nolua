@@ -3,10 +3,9 @@
 nolua разработан Александром Амзиным февральским вечером 2013 года]]--
 
 --[[if (arg[1] == nil or arg[2] == nil) then
-	print ("Can't find input or output file. Please use the following format:\n nolua.lua inputfile outputfile")
+	print ("Can't find input or output file. Please use the following format:\n nolua.lua inputfile")
 	os.exit()
 end]]--
-
 InputFile =  arg[1] -- was: "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\nolua.txt"
 --OutputFile = stdout -- was: "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\noluanew.lua"
 SourceCodeDefinitions = {}
@@ -41,4 +40,3 @@ print (SourceCode)
 
 --local file = io.open(OutputFile, "w")
 --file:write (SourceCode)
-

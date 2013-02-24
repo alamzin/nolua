@@ -1,6 +1,10 @@
-
+--copyright=
 --[[noweb-like script for lua
 nolua разработан Александром Амзиным февральским вечером 2013 года]]--
+--Конец--
+
+
+--Определим файлы ввода/вывода=
 
 --[[if (arg[1] == nil or arg[2] == nil) then
 	print ("Can't find input or output file. Please use the following format:\n nolua.lua inputfile outputfile")
@@ -9,6 +13,17 @@ end]]--
 
 InputFile =  arg[1] -- was: "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\nolua.txt"
 --OutputFile = stdout -- was: "C:\\Users\\macamzin\\Documents\\GitHub\\nolua\\noluanew.lua"
+--Конец--
+
+Алгоритм выглядит следующим образом: мы осуществляем два прохода по заданному файлу. В первый проход перехватываем все определения. Каждое определение выглядит примерно так: --Определение=
+
+Заканчиваются определения словом --Конец-- или --End-- 
+
+И определения, и окончания должны начинаться с новой строки, без отступов.
+
+Вызывать существующие определения можно почти так же. Надо лишь начать определение двумя дефисами и закончить двумя дефисами. Это особенно удобно потому, что двойной дефис - комментарий в lua.
+
+--Перехватим определения=
 SourceCodeDefinitions = {}
 CurrentSection = "DefaultSection" -- в DefaultSection сваливается документация без определений, но с вызовами этих определений. По уму можно было бы просто пройтись по DefaultSection и вычистить оттуда болтовню, оставив лишь определения. Но второй проход по файлу нагляднее. 
 
@@ -22,6 +37,11 @@ for line in io.lines(InputFile) do
 		SourceCodeDefinitions[CurrentSection] = SourceCodeDefinitions[CurrentSection].."\n"..line
 	end
 end
+--Конец--
+
+
+Второй проход гораздо понятнее. В нем мы просто ищем исключительно обрамленные двойными дефисами определения и составляем из них тексты
+--Второй проход=
 SourceCode = ""
 
 for line in io.lines(InputFile) do
@@ -36,9 +56,25 @@ end
 
 SourceCode = SourceCode.."\n" -- добавляем пустую строчку в конце файла
 
+--Конец--
+
+Наконец, мы записываем получившийся исходный код в файл
+
+--Записываем файл=
 
 print (SourceCode)
 
 --local file = io.open(OutputFile, "w")
 --file:write (SourceCode)
+--Конец--
+
+Окончательно программа выглядит так:
+
+--copyright--
+--Определим файлы ввода/вывода--
+--Перехватим определения--
+--Второй проход--
+--Записываем файл--
+
+
 
